@@ -6,15 +6,12 @@ from tkinter import messagebox, ttk
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.padding import PKCS7
 from cryptography.hazmat.backends import default_backend
-
 # Master key and AES setup
 master_key = input("Enter your master key (16/24/32 characters): ").encode('utf-8')
 if len(master_key) not in [16, 24, 32]:
     raise ValueError("Key must be 16, 24, or 32 bytes long!")
 iv = os.urandom(16)
-
 username = input("Enter your username: ")
-
 def aes_encrypt(plain_text):
     padder = PKCS7(128).padder()
     padded_data = padder.update(plain_text.encode()) + padder.finalize()
@@ -53,6 +50,7 @@ def send_message():
         chat_listbox.insert(END, "You: " + message_content)
         save_chat_log(f"Client (You): {message_content} | Encrypted: {encrypted_message.hex()}")
         message_entry.delete(0, END)
+
 
 def receive_messages():
     while True:
